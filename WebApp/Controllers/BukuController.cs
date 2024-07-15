@@ -53,7 +53,16 @@ namespace WebApp.Controllers
                 {
                     if (file.ContentLength > 1048576)
                     {
-                        ModelState.AddModelError("", "Ukuran file Sampul tidak boleh lebih dari 1MB");
+                        ModelState.AddModelError("Sampul", "Ukuran file Sampul tidak boleh lebih dari 1MB");
+                        this.SetMessage("Ukuran file Sampul tidak boleh lebih dari 1MB", false);
+                        ViewBag.Kategori = kbm.AllKategori();
+                        return View(buku);
+                    }
+
+                    if (!file.ContentType.Contains("image"))
+                    {
+                        ModelState.AddModelError("Sampul", "File Sampul harus berupa gambar");
+                        this.SetMessage("File Sampul harus berupa gambar", false);
                         ViewBag.Kategori = kbm.AllKategori();
                         return View(buku);
                     }

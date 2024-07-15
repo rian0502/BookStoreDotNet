@@ -2308,9 +2308,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Uploads\74bc8a94-55ea-4493-b4e8-aa6001b7dbcc.jpg" />
-    <Content Include="Uploads\b9f1f27e-f3b9-4613-86b3-ae28211a2360.jpg" />
-    <Content Include="Uploads\efea7a47-1656-40c4-9ba3-a39fb93226dd.png" />
+    <Content Include="Uploads\12499f5f-dbee-46c7-9697-d60766203dc2.jpg" />
+    <Content Include="Uploads\6a7a20e3-1a46-4274-b35a-8ae096c6772e.jfif" />
+    <Content Include="Uploads\6b1a1c2b-1869-402c-aec6-c2fd1000c79d.jpg" />
+    <Content Include="Uploads\7cdfe48e-1e0d-42ca-b021-0e143fad93a9.dll" />
+    <Content Include="Uploads\a12b6454-3e92-4a55-919f-9c5c3b5e7c8a.jfif" />
+    <Content Include="Uploads\accbce9a-6e47-4218-aff5-81a860a254cd.jfif" />
+    <Content Include="Uploads\eea5facf-edbb-4118-8b4b-4b36c838f2fd.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -16,8 +16,6 @@ namespace WebApp.Models
         [Required(ErrorMessage = "Sinopsis harus diisi!")]
         [StringLength(maximumLength: 1000, MinimumLength = 5)]
         public string Sinopsis { get; set; }
-        [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Format file tidak valid!")]
-        
         public string Sampul { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }

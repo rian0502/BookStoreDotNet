@@ -53,6 +53,15 @@ namespace WebApp.Controllers
                 data = kbm.PenggunaanKategori()
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetProduct()
+        {
+            return Json(
+                new
+                {
+                 success = true,
+                 data = pdm.GetProducts()
+                }, JsonRequestBehavior.AllowGet);
+        }
     }
 
 

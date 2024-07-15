@@ -4,8 +4,6 @@
         Response.Redirect(Url.Action("Index", "Login"));
     }
 }
-
-
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -147,19 +145,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
             </div>
         </div>
-        <!-- /.navbar -->
-        <!-- Content Wrapper. Contains page content -->
+
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <!-- /.content-header -->
-            <!-- Main content -->
             <div class="content">
                 <div class="container mt-5">
-
                     @RenderBody()
-
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
+                </div>
             </div>
             <!-- /.content -->
         </div>
@@ -173,10 +164,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                Feel free
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Rian</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2024<a href="https://github.com/rian0502/BookStoreDotNet">Rian</a>.</strong> All rights reserved.
         </footer>
     </div>
 
@@ -342,37 +333,105 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 dataType: 'json',
                 success: function (result) {
                     if (result.success) {
-                        var categories = [];
-                        var data = [];
-
+                        const categories = [];
+                        const data = [];
                         $.each(result.data, function (index, item) {
                             categories.push(item.Kategori);
-                            data.push(item.Total);
+                            data.push({
+                                name: item.Kategori,
+                                y: item.Total
+                            });
                         });
-
                         Highcharts.chart('chartKategoriBuku', {
                             chart: {
-                                type: 'column'
+                                type: 'pie'
                             },
                             title: {
                                 text: 'Penggunaan Kategori Buku'
                             },
+                            tooltip: {
+                                pointFormat: '<b>{point.name}: {point.y}</b>'
+                            },
+                            series: [{
+                                name: 'Total Buku',
+                                data: data
+                            }]
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat memproses permintaan',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: error,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetProduct", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        const categories = [];
+                        const harga = [];
+                        console.log(result.data);
+                        $.each(result.data, function (index, item) {
+                            categories.push(item.Name);
+                            harga.push(item.Price);
+                        });
+
+                        Highcharts.chart('chartHargaProduct', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Harga Produk'
+                            },
                             xAxis: {
                                 categories: categories,
                                 title: {
-                                    text: 'Kategori'
+                                    text: 'Nama Produk'
                                 }
                             },
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: 'Total Buku'
+                                    text: 'Harga (USD)'
                                 },
                                 allowDecimals: false
                             },
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
                             series: [{
-                                name: 'Total Buku',
-                                data: data
+                                name: 'Harga',
+                                data: harga
                             }]
                         });
                     } else {
