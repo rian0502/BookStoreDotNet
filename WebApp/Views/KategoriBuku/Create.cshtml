@@ -1,0 +1,25 @@
+﻿@model WebApp.Models.KategoriBuku
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="card">
+    <div class="card-header">
+        <a href="@Url.Action("Index", "KategoriBuku")" class="btn btn-danger"><i class="fas fa-chevron-circle-left"></i> Back</a>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Create", "KategoriBuku", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NamaKategori, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.NamaKategori, new { @class = "form-control", placeholder = "Ex: Komedi" })
+                @Html.ValidationMessageFor(model => model.NamaKategori, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Simpan</button>
+            </div>
+        }
+    </div>
+</div>

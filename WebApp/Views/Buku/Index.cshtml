@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebApp.Models.Buku>
+@{
+    ViewBag.Title = "Tambah Buku";
+    var counter = 1;
+}
+
+<div class="card">
+    <div class="card-header">
+        <a href="@Url.Action("Create", "Buku")" class="btn btn-primary"><i class="far fa-plus-square"></i> Buku</a>
+        <a target="_blank" href="@Url.Action("ReportBuku", "Buku")" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Report</a>
+        <a target="_blank" href="@Url.Action("reportExcelBuku", "Buku")" class="btn btn-success"><i class="far fa-file-excel"></i> Report</a>
+    </div>
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Buku</th>
+                    <th>Halaman</th>
+                    <th>Sinopsis</th>
+                    <th>Kategori</th>
+                    <th>Sampul Buku</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@item.NamaBuku</td>
+                        <td>@item.Halaman</td>
+                        <td>
+                            <textarea readonly class="form-control" rows="3">@item.Sinopsis</textarea>
+                        </td>
+                        <td>@item.KategoriBuku.NamaKategori</td>
+                        <td><img src="~/Uploads/@item.Sampul" width="100" height="100" /></td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.Action("Edit", "Buku", new { id = item.id })">Edit</a>
+                                    @using (Html.BeginForm("Delete", "Buku", FormMethod.Post, new { @class = "delete-form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", item.id)
+                                        <button type="submit" class="dropdown-item bg-danger">Delete</button>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

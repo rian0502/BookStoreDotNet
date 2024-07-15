@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApp.Models.KategoriBuku>
+
+@{
+    ViewBag.Title = "Kategori Buku";
+    var counter = 1;
+}
+
+<div class="card">
+    <div class="card-header">
+        <a href="@Url.Action("Create", "KategoriBuku")" class="btn btn-primary"><i class="far fa-plus-square"></i> Kategori</a>
+    </div>
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@item.NamaKategori</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.Action("Edit", "KategoriBuku", new { id = item.Id })">Edit</a>
+                                    @if (item.JumlahBuku == 0)
+                                    {
+                                        using (Html.BeginForm("Delete", "KategoriBuku", new { id = item.Id }, FormMethod.Post, new { @class = "delete-form", style = "display:inline;" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item bg-danger">Delete</button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

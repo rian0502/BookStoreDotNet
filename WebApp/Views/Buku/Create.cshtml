@@ -1,0 +1,66 @@
+﻿@model WebApp.Models.Buku
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="card">
+    <div class="card-header">
+        <a href="@Url.Action("Index", "Buku")" class="btn btn-danger"><i class="fas fa-chevron-circle-left"></i> Back</a>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Create", "Buku", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="NamaBuku">Nama Buku</label>
+                            @Html.TextBoxFor(model => model.NamaBuku, new { @class = "form-control", @placeholder = "Nama Buku" })
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Halaman">Jumlah Hal Buku</label>
+                            @Html.TextBoxFor(model => model.Halaman, new { @class = "form-control", @type = "number", @min = "1", @placeholder = "Jumlah Halaman" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            @Html.DropDownListFor(model => model.Id_kategori, new SelectList(ViewBag.Kategori, "Id", "NamaKategori"), "Select Kategori", new { @class = "form-control select2bs4", @style = "width: 100%;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Sinopsis">Sinopsis</label>
+                            @Html.TextAreaFor(model => model.Sinopsis, new { @class = "form-control", @rows = 3 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Sampul">File input</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    @Html.TextBox("file", null, new { @class = "custom-file-input", @type = "file" })
+                                    <label class="custom-file-label" for="Sampul">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

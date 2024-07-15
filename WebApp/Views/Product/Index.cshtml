@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Products";
+    List<WebApp.Models.Product> products = ViewBag.Products;
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6">
+                <a href="@Url.Action("Create", "Product")" class="btn btn-primary"><i class="fas fa-plus"></i> Product</a>
+                <a target="_blank" href="@Url.Action("ReportProduct", "Product")" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Report</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>
+
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="@Url.Action("Edit", "Product", new { id = product.Id })">Edit</a>
+                                    @using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @class = "delete-form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", product.Id)
+                                        <button type="submit" class="btn bg-danger dropdown-item">Delete</button>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
