@@ -11,6 +11,8 @@ namespace WebApp.Models
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name must be less than 100 characters")]
+        [Display(Name = "Product Name")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Price is required")]

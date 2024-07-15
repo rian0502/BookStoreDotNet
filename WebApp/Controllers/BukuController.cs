@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using WebApp.Helper;
 using WebApp.Models;
 using WebApp.Models.DataModel;
@@ -37,17 +38,37 @@ namespace WebApp.Controllers
 
         // POST: Buku/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Buku buku, HttpPostedFileBase file)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Kategori = kbm.AllKategori();
+                    return View(buku);
+                }
+
                 if (file != null && file.ContentLength > 0)
                 {
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    if (file.ContentLength > 1048576)
+                    {
+                        ModelState.AddModelError("", "Ukuran file Sampul tidak boleh lebih dari 1MB");
+                        ViewBag.Kategori = kbm.AllKategori();
+                        return View(buku);
+                    }
+                    string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
                     var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                     buku.Sampul = fileName;
                     file.SaveAs(path);
                 }
+                else
+                {
+                    ModelState.AddModelError("", "File Sampul harus diunggah.");
+                    ViewBag.Kategori = kbm.AllKategori();
+                    return View(buku);
+                }
+
                 buku.created_at = DateTime.Now;
                 buku.updated_at = DateTime.Now;
                 buku.Id_user = (Guid)Session["id"];
@@ -58,7 +79,8 @@ namespace WebApp.Controllers
             catch (Exception ex)
             {
                 this.SetMessage(ex.Message, false);
-                return View();
+                ViewBag.Kategori = kbm.AllKategori();
+                return View(buku);
             }
         }
         public ActionResult Edit(Guid id)

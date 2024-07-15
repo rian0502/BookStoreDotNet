@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Products";
     List<WebApp.Models.Product> products = ViewBag.Products;
+    var counter = 1;
 }
 
 <div class="card">
@@ -16,7 +17,7 @@
         <table id="example2" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Action</th>
@@ -26,7 +27,7 @@
                 @foreach (var product in products)
                 {
                 <tr>
-                    <td>@product.Id</td>
+                    <td>@counter</td>
                     <td>@product.Name</td>
                     <td>@product.Price.ToString("C")</td>
                     <td class="text-center">

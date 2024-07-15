@@ -46,7 +46,6 @@ namespace WebApp.Controllers
                     {
                         this.SetMessage("Email dan Password tidak cocok !", false);
                         return View();
-
                     }
                 }
                 else

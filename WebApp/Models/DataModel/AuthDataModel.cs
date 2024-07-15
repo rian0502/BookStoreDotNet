@@ -10,7 +10,7 @@ namespace WebApp.Models.DataModel
 {
     public class AuthDataModel
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["koneksi"].ConnectionString;
+        readonly string connectionString = ConfigurationManager.ConnectionStrings["koneksi"].ConnectionString;
         public void ChangePassword(Guid id, string password, string salt)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -72,7 +72,6 @@ namespace WebApp.Models.DataModel
             }
             return user;
         }
-
         public List<Users> AllUser()
         {
             List<Users> users = new List<Users>();

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using WebApp.Helper;
 using WebApp.Models;
 using WebApp.Models.DataModel;
@@ -56,6 +57,10 @@ namespace WebApp.Controllers
         {
             try
             {
+                if (model.Name.IsNullOrWhiteSpace() || model.Price == 0)
+                {
+                    return View();
+                }
                 pdm.InsertProduct(model.Name, model.Price);
                 this.SetMessage("Addded Successfully !", true);
                 return RedirectToAction("Index");

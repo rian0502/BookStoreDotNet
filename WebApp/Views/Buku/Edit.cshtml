@@ -17,12 +17,14 @@
                         <div class="form-group">
                             <label for="NamaBuku">Nama Buku</label>
                             @Html.TextBoxFor(model => model.NamaBuku, new { @class = "form-control", @placeholder = "Nama Buku" })
+                            @Html.ValidationMessageFor(model => model.NamaBuku, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="Halaman">Jumlah Hal Buku</label>
                             @Html.TextBoxFor(model => model.Halaman, new { @class = "form-control", @type = "number", @min = "1", @placeholder = "Jumlah Halaman" })
+                            @Html.ValidationMessageFor(model => model.Halaman, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -44,6 +46,7 @@
                         <div class="form-group">
                             <label for="Sinopsis">Sinopsis</label>
                             @Html.TextAreaFor(model => model.Sinopsis, new { @class = "form-control", @rows = 3 })
+                            @Html.ValidationMessageFor(model => model.Sinopsis, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
