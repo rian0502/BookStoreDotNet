@@ -72,5 +72,32 @@ namespace WebApp.Models.DataModel
             }
             return user;
         }
+
+        public List<Users> AllUser()
+        {
+            List<Users> users = new List<Users>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var cmd = new SqlCommand("AllUser", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            users.Add(new Users(
+                                id: reader.GetGuid(reader.GetOrdinal("id")),
+                                name: reader.GetString(reader.GetOrdinal("Name")),
+                                email: reader.GetString(reader.GetOrdinal("Email")),
+                                password: reader.GetString(reader.GetOrdinal("Password")),
+                                salt: reader.GetString(reader.GetOrdinal("Salt"))
+                            ));
+                        }
+                    }
+                }
+            }
+            return users;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace WebApp.Models.DataModel
 {
     public class BukuDataModel
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["koneksi"].ConnectionString;
+        readonly string connectionString = ConfigurationManager.ConnectionStrings["koneksi"].ConnectionString;
 
         public bool InsertBuku(Buku buku)
         {
@@ -58,7 +58,6 @@ namespace WebApp.Models.DataModel
             }
             return buku;
         }
-
         public List<Buku> FindAll(Guid id)
         {
             List<Buku> data = new List<Buku>();

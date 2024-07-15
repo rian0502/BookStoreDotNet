@@ -38,6 +38,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Highchart -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -57,12 +63,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="@Url.Action("Index", "Home")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("Contact", "Home")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("About", "Home")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">About</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="@Url.Action("Index", "Product")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Product" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">Products</a>
                         </li>
                         <li class="nav-item">
@@ -70,6 +70,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Buku")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Buku" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">Buku</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Contact", "Home")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("About", "Home")" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">About</a>
                         </li>
                     </ul>
                 </div>
@@ -83,18 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="fas fa-chevron-circle-down"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="@Url.Action("Logout", "Login")" class="dropdown-item bg-danger">
-                                <div class="row">
-                                    <div class="col-1">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                    </div>
-                                    <div class="col-6">
-                                        Logout
-                                    </div>
 
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
                             <a href="" id="button_changepassword" class="dropdown-item">
                                 <div class="row">
                                     <div class="col-1">
@@ -102,6 +97,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     <div class="col-6">
                                         Ganti Password
+                                    </div>
+
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="@Url.Action("Logout", "Login")" class="dropdown-item bg-danger">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </div>
+                                    <div class="col-6">
+                                        Logout
                                     </div>
 
                                 </div>
@@ -324,6 +331,69 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                     });
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetPenggunaanKategori", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success) {
+                        var categories = [];
+                        var data = [];
+
+                        $.each(result.data, function (index, item) {
+                            categories.push(item.Kategori);
+                            data.push(item.Total);
+                        });
+
+                        Highcharts.chart('chartKategoriBuku', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Penggunaan Kategori Buku'
+                            },
+                            xAxis: {
+                                categories: categories,
+                                title: {
+                                    text: 'Kategori'
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Total Buku'
+                                },
+                                allowDecimals: false
+                            },
+                            series: [{
+                                name: 'Total Buku',
+                                data: data
+                            }]
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat memproses permintaan',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: error,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                }
             });
         });
     </script>

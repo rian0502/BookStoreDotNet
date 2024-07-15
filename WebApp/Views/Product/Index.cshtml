@@ -25,28 +25,27 @@
             <tbody>
                 @foreach (var product in products)
                 {
-                    <tr>
-                        <td>@product.Id</td>
-                        <td>@product.Name</td>
-                        <td>@product.Price.ToString("C")</td>
-                        <td>
-
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="@Url.Action("Edit", "Product", new { id = product.Id })">Edit</a>
-                                    @using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @class = "delete-form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        @Html.Hidden("id", product.Id)
-                                        <button type="submit" class="btn bg-danger dropdown-item">Delete</button>
-                                    }
-                                </div>
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td class="text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="@Url.Action("Edit", "Product", new { id = product.Id })">Edit</a>
+                                @using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { @class = "delete-form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", product.Id)
+                                    <button type="submit" class="btn bg-danger dropdown-item">Delete</button>
+                                }
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

@@ -1,5 +1,6 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using Highsoft.Web.Mvc.Charts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,9 +14,20 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        ProductDataModel pdm = new ProductDataModel();
+        readonly ProductDataModel pdm = new ProductDataModel();
+        readonly KategoriBukuDataModel kbm = new KategoriBukuDataModel();
+        readonly BukuDataModel bdm = new BukuDataModel();
+        readonly AuthDataModel adm = new AuthDataModel();
         public ActionResult Index()
         {
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            ViewBag.Product = pdm.GetProducts().Count;
+            ViewBag.Kategori = kbm.AllKategori().Count;
+            ViewBag.Buku = bdm.FindAll((Guid)Session["id"]).Count;
+            ViewBag.Users = adm.AllUser().Count;
             return View();
         }
 
@@ -31,6 +43,15 @@ namespace WebApp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult GetPenggunaanKategori()
+        {
+            return Json(new
+            {
+                success = true,
+                data = kbm.PenggunaanKategori()
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 

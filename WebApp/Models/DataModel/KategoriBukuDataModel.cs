@@ -107,5 +107,32 @@ namespace WebApp.Models.DataModel
             }
             return status;
         }
+
+        public List<CategoryUsage> PenggunaanKategori()
+        {
+            List<CategoryUsage> cu = new List<CategoryUsage>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand("GetPenggunaanKategori", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        cu.Add(
+                            new CategoryUsage {
+                                Kategori = reader.GetString(reader.GetOrdinal("Kategori")),
+                                Total = reader.GetInt32(reader.GetOrdinal("Total"))
+                            }
+                        );
+                       
+                    }
+                }
+            }
+
+            return cu;
+        }
     }
 }

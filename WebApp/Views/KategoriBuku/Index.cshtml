@@ -24,12 +24,12 @@
                     <tr>
                         <td>@counter</td>
                         <td>@item.NamaKategori</td>
-                        <td>
+                        <td class="text-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                     Action
                                 </button>
-                                <div class="dropdown-menu">
+                                <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="@Url.Action("Edit", "KategoriBuku", new { id = item.Id })">Edit</a>
                                     @if (item.JumlahBuku == 0)
                                     {
