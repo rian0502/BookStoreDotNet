@@ -12,7 +12,6 @@ namespace WebApp.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Salt { get; set; }
-
         public Users(Guid id, string name, string email, string password, string salt)
         {
             this.Id = id;

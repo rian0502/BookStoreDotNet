@@ -14,12 +14,9 @@ namespace WebApp.Helper
 
         public bool PasswordVertify(string password, string password_db, string salt)
         {
-
             string hash = HashPassword(password, salt);
-
             return hash == password_db;
         }
-
         public string GenerateSalt()
         {
             byte[] saltBytes = new byte[16];
